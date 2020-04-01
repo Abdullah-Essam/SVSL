@@ -1,65 +1,98 @@
 package com.example.svslsavemoneysavelife.activities.ui.save;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.svslsavemoneysavelife.R;
+import com.example.svslsavemoneysavelife.controller.UserController;
+import com.example.svslsavemoneysavelife.models.Month;
+import com.example.svslsavemoneysavelife.utils.SharedData;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SaveFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SaveFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TextView title, comment;
+    private EditText goalAmount;
+    private Button saveButton;
+    private UserController userController = new UserController();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private double avg_points = 0.0;
+    private double duration = 0;
 
     public SaveFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SaveFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SaveFragment newInstance(String param1, String param2) {
-        SaveFragment fragment = new SaveFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_save, container, false);
+        View view = inflater.inflate(R.layout.fragment_save, container, false);
+        title = view.findViewById(R.id.title);
+        comment = view.findViewById(R.id.comment);
+        goalAmount = view.findViewById(R.id.goal_amount);
+        saveButton = view.findViewById(R.id.save);
+
+        init();
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onClick(View v) {
+                if (validate()) {
+                    if (SharedData.currentUser.getMonths().size() > 2) {
+                        double goalCost;
+                        try {
+                            goalCost = Double.parseDouble(goalAmount.getText().toString());
+
+                            if (avg_points >= 0.1 && avg_points <= 0.2) {
+                                duration = 2;
+                            } else if (avg_points > 0.2 && avg_points <= 0.3) {
+                                duration = 1.5;
+                            } else if (avg_points > 0.3 && avg_points <= 0.4) {
+                                duration = 1;
+                            } else if (avg_points > 0.4 && avg_points <= 0.6) {
+                                duration = 0.5;
+                            } else if (avg_points > 0.6) {
+                                duration = 0.25;
+                            }
+
+                            double monthly_saving_amount = goalCost / duration * 12;
+                            comment.setText(String.format("To achieve this goal, you must save %.2f SR per month for %.0f months", monthly_saving_amount, duration));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "Enter valid amount", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        comment.setText("Sorry, you have to use the application for 3 months or more to get feedback");
+                    }
+                }
+            }
+        });
+        return view;
+    }
+
+    private void init() {
+        if (SharedData.currentUser.getMonths().size() > 2) {
+            double totalAvgPoint = 0.0;
+            for (Month month : SharedData.currentUser.getMonths()) {
+                totalAvgPoint += month.getAvgPoint();
+            }
+            avg_points = totalAvgPoint / SharedData.currentUser.getMonths().size();
+        }
+    }
+
+    private boolean validate() {
+        if (TextUtils.isEmpty(goalAmount.getText().toString())) {
+            goalAmount.setError("required field!");
+            return false;
+        }
+        return true;
     }
 }

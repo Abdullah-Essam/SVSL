@@ -31,20 +31,18 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isSaved = false;
     private SharedPreferences sharedPref;
 
-    private static final String IS_USER_SAVED = "SAVED_USER";
-    private static final String PHONE = "PHONE";
-    private static final String PASS = "PASS";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        sharedPref = this.getSharedPreferences("login", Context.MODE_PRIVATE);
-        isSaved = sharedPref.getBoolean(IS_USER_SAVED, false);
+        sharedPref = this.getSharedPreferences(SharedData.PREF_KEY, Context.MODE_PRIVATE);
+        isSaved = sharedPref.getBoolean(SharedData.IS_USER_SAVED, false);
         if(isSaved) {
-            loginPhone = sharedPref.getString(PHONE, "");
-            loginPassword = sharedPref.getString(PASS, "");
+            loginPhone = sharedPref.getString(SharedData.PHONE, "");
+            loginPassword = sharedPref.getString(SharedData.PASS, "");
             login();
         }
 
@@ -105,9 +103,9 @@ public class LoginActivity extends AppCompatActivity {
                 if(users.size() > 0) {
                     SharedData.currentUser = users.get(0);
                     SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean(IS_USER_SAVED, true);
-                    editor.putString(PHONE, loginPhone);
-                    editor.putString(PASS, loginPassword);
+                    editor.putBoolean(SharedData.IS_USER_SAVED, true);
+                    editor.putString(SharedData.PHONE, loginPhone);
+                    editor.putString(SharedData.PASS, loginPassword);
                     editor.apply();
 
                     progressDialog.dismiss();

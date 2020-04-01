@@ -7,6 +7,7 @@ public class Month {
     private String key;
     private Double totalExpanse;
     private Double monthLimit;
+    private Double avgPoint;
     private Date monthStart;
     private Date monthEnd;
     private ArrayList<Invoice> invoices = new ArrayList<>();
@@ -14,13 +15,22 @@ public class Month {
     public Month() {
     }
 
-    public Month(String key, Double totalExpanse, Double monthLimit, Date monthStart, Date monthEnd, ArrayList<Invoice> invoices) {
+    public Month(String key, Double totalExpanse, Double monthLimit, Double avgPoint, Date monthStart, Date monthEnd, ArrayList<Invoice> invoices) {
         this.key = key;
         this.totalExpanse = totalExpanse;
         this.monthLimit = monthLimit;
+        this.avgPoint = avgPoint;
         this.monthStart = monthStart;
         this.monthEnd = monthEnd;
         this.invoices = invoices;
+    }
+
+    public Double getAvgPoint() {
+        return avgPoint;
+    }
+
+    public void setAvgPoint(Double avgPoint) {
+        this.avgPoint = avgPoint;
     }
 
     public String getKey() {

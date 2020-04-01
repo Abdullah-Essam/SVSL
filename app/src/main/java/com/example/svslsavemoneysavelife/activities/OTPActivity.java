@@ -51,15 +51,12 @@ public class OTPActivity extends AppCompatActivity {
     private String phone = "";
 
     private SharedPreferences sharedPref;
-    private static final String IS_USER_SAVED = "SAVED_USER";
-    private static final String PHONE = "PHONE";
-    private static final String PASS = "PASS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
-        sharedPref = this.getSharedPreferences("login", Context.MODE_PRIVATE);
+        sharedPref = this.getSharedPreferences(SharedData.PREF_KEY, Context.MODE_PRIVATE);
 
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
@@ -163,9 +160,9 @@ public class OTPActivity extends AppCompatActivity {
                                     public void onSuccess(ArrayList<User> users) {
                                         SharedData.currentUser = users.get(0);
                                         SharedPreferences.Editor editor = sharedPref.edit();
-                                        editor.putBoolean(IS_USER_SAVED, true);
-                                        editor.putString(PHONE, users.get(0).getPhone());
-                                        editor.putString(PASS, users.get(0).getPass());
+                                        editor.putBoolean(SharedData.IS_USER_SAVED, true);
+                                        editor.putString(SharedData.PHONE, users.get(0).getPhone());
+                                        editor.putString(SharedData.PASS, users.get(0).getPass());
                                         editor.apply();
 
                                         progressDialog.dismiss();
@@ -188,9 +185,9 @@ public class OTPActivity extends AppCompatActivity {
                                         if(users.size() > 0) {
                                             SharedData.currentUser = users.get(0);
                                             SharedPreferences.Editor editor = sharedPref.edit();
-                                            editor.putBoolean(IS_USER_SAVED, true);
-                                            editor.putString(PHONE, users.get(0).getPhone());
-                                            editor.putString(PASS, users.get(0).getPass());
+                                            editor.putBoolean(SharedData.IS_USER_SAVED, true);
+                                            editor.putString(SharedData.PHONE, users.get(0).getPhone());
+                                            editor.putString(SharedData.PASS, users.get(0).getPass());
                                             editor.apply();
 
                                             progressDialog.dismiss();

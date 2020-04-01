@@ -93,7 +93,7 @@ public class MonthController {
         cal.set(Calendar.MILLISECOND, cal.getActualMaximum(Calendar.MILLISECOND));
         Date monthEnd = cal.getTime();
 
-        final Month month = new Month(getNewKey(), 0.0, 0.0, monthStart, monthEnd, new ArrayList<>());
+        final Month month = new Month(getNewKey(), 0.0, 0.0, 0.0, monthStart, monthEnd, new ArrayList<>());
         if(SharedData.currentUser.getMonths() != null) {
             SharedData.currentUser.getMonths().add(month);
         }else {
@@ -101,6 +101,7 @@ public class MonthController {
             months.add(month);
             SharedData.currentUser.setMonths(months);
         }
+        handleAvgPoint();
     }
 
     private String getNewKey() {
@@ -119,5 +120,34 @@ public class MonthController {
         }else {
             return false;
         }
+    }
+
+    private void handleAvgPoint() {
+        for (Month month : SharedData.currentUser.getMonths()) {
+            double total = month.getTotalExpanse();
+            double limit = month.getMonthLimit();
+
+            if (total / limit <= 1.0) {
+                month.setAvgPoint(1.0);
+            } else if (total / limit <= 1.15) {
+                month.setAvgPoint(0.8);
+            } else if (total / limit <= 1.4) {
+                month.setAvgPoint(0.6);
+            } else if (total / limit <= 1.8) {
+                month.setAvgPoint(0.4);
+            } else if (total / limit > 1.8) {
+                month.setAvgPoint(0.2);
+            }
+        }
+
+        new UserController().save(SharedData.currentUser, new UserCallback() {
+            @Override
+            public void onSuccess(ArrayList<User> users) {
+            }
+
+            @Override
+            public void onFail(String error) {
+            }
+        });
     }
 }

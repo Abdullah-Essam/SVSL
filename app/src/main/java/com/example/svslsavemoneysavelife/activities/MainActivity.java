@@ -1,22 +1,34 @@
 package com.example.svslsavemoneysavelife.activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 import com.example.svslsavemoneysavelife.R;
+import com.example.svslsavemoneysavelife.controller.MonthController;
 import com.example.svslsavemoneysavelife.utils.SharedData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,11 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    private MonthController monthController = new MonthController();
     private SharedPreferences sharedPref;
-
-    private static final String IS_USER_SAVED = "SAVED_USER";
-    private static final String PHONE = "PHONE";
-    private static final String PASS = "PASS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        sharedPref = this.getSharedPreferences(SharedData.PREF_KEY, Context.MODE_PRIVATE);
 
-        sharedPref = this.getSharedPreferences("login", Context.MODE_PRIVATE);
+        int i = monthController.getCurrentMonthIndex();
+        SharedData.currentMonthIndex = i;
+        if (SharedData.currentUser.getMonths().get(i).getMonthLimit() <= 0) {
+            Intent intent = new Intent(MainActivity.this, SetLimitActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -84,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_logout:
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean(IS_USER_SAVED, false);
-                editor.putString(PHONE, "");
-                editor.putString(PASS, "");
+                editor.putBoolean(SharedData.IS_USER_SAVED, false);
+                editor.putString(SharedData.PHONE, "");
+                editor.putString(SharedData.PASS, "");
                 editor.apply();
 
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -95,5 +111,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int RC, @NonNull String[] per, @NonNull int[] PResult) {
+        super.onRequestPermissionsResult(RC, per, PResult);
     }
 }
