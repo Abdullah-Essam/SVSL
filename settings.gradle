@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name='SVSL(Save Money Save Life)'

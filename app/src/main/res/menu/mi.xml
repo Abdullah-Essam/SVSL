@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home "
+        android:id="@+id/home"/>
+
+    <item android:title="set spending limit"
+        android:id="@+id/s"/>
+
+    <item android:title="Save for Goal "
+        android:id="@+id/sfg"/>
+    <item android:title="Predicting Expenses "
+        android:id="@+id/p"/>
+    <item android:title="User Rating"
+        android:id="@+id/r"/>
+   
+    <item android:title="Help"
+    android:id="@+id/h"/>
+    <item android:title="About Us"
+        android:id="@+id/a"/>
+
+    <item
+        android:id="@+id/n"
+        android:title="SignOut" />
+</menu>

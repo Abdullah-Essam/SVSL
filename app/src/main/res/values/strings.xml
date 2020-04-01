@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SVSL</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Open" />
+    <string name="Close" />
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">User Name</string>
+    <string name="nav_header_subtitle">User Phone</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_save_for_goal">Saving For a Goal</string>
+    <string name="menu_predict">Predicting Expenses</string>
+    <string name="menu_rate">User Rating</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about_us">About Us</string>
+
+    <string name="home_second">Home Second</string>
+</resources>

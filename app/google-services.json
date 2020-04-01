@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "496058567370",
+    "firebase_url": "https://svsld-fe3af.firebaseio.com",
+    "project_id": "svsld-fe3af",
+    "storage_bucket": "svsld-fe3af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496058567370:android:54f9bfc9b3e331d6ed4233",
+        "android_client_info": {
+          "package_name": "com.example.svslsavemoneysavelife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "496058567370-k1rgu555ij4d8jdore6vpah11mlp66cr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.svslsavemoneysavelife",
+            "certificate_hash": "b7f66babc2121393fb7fca5bd365de23774eb5d8"
+          }
+        },
+        {
+          "client_id": "496058567370-8chb0l61ckqdispd33894v2ivugbgfuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3KAgDdIsKrzU2cV0yLSXW9UObnT6NxD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "496058567370-8chb0l61ckqdispd33894v2ivugbgfuh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
