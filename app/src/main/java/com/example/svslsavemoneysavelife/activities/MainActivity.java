@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.example.svslsavemoneysavelife.R;
 import com.example.svslsavemoneysavelife.utils.SharedData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         sharedPref = this.getSharedPreferences("login", Context.MODE_PRIVATE);
 

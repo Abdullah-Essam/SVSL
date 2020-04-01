@@ -1,15 +1,52 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.chaquo.python'
 
 android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.example.svslsavemoneysavelife"
+        sourceSets {
+            main{
+                python {
+                    srcDirs = ["src/main/python"]
+                }
+            }
+        }
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        python {
+            // If Chaquopy fails to find Python on your build machine, enable the following
+            // line and edit it to point to Python 3.5 or later.
+            buildPython "C:/Python38/python.exe"
+
+            pip {
+                install "numpy"
+                install "sklearn"
+            }
+
+            // Python unit tests
+            pip {
+                install "murmurhash==0.28.0"  // Requires chaquopy-libcxx
+            }
+
+            pyc {
+                src false  // For testing bytecode compilation on device.
+            }
+        }
+
+        // Chaquopy generates extra internal-use constructors on static proxy classes.
+        lintOptions {
+            disable "ValidFragment"
+        }
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -26,10 +63,7 @@ android {
 
 dependencies {
     implementation 'com.nabinbhandari.android:permissions:3.8'
-
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-
-
     //Firebase
     implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
     implementation 'com.google.firebase:firebase-ml-vision-image-label-model:19.0.0'
