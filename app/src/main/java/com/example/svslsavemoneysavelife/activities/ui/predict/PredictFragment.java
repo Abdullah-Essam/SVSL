@@ -16,8 +16,12 @@ import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 import com.example.svslsavemoneysavelife.R;
+import com.example.svslsavemoneysavelife.models.Month;
 import com.example.svslsavemoneysavelife.utils.SharedData;
+import com.google.android.gms.vision.L;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PredictFragment extends Fragment {
@@ -40,26 +44,27 @@ public class PredictFragment extends Fragment {
             public void onClick(View v) {
                 int noOfMonths = SharedData.currentUser.getMonths().size();
                 if (noOfMonths >= 3) {
-                    double firstMonthTotal = SharedData.currentUser.getMonths().get(noOfMonths - 1).getTotalExpanse();
-                    double secondMonthTotal = SharedData.currentUser.getMonths().get(noOfMonths - 2).getTotalExpanse();
-                    double thirdMonthTotal = SharedData.currentUser.getMonths().get(noOfMonths - 3).getTotalExpanse();
-                    runPythonCode(firstMonthTotal, secondMonthTotal, thirdMonthTotal);
+                    ArrayList<Double> totals = new ArrayList<>();
+                    for (Month month : SharedData.currentUser.getMonths()) {
+                        totals.add(month.getTotalExpanse());
+                    }
+                    runPythonCode(totals);
                 } else {
-                    comment.setText("Sorry, you have to use the application for 3 months or more to get prediction");
+                    comment.setText(R.string.three_month_error);
                 }
             }
         });
         return view;
     }
 
-    private void runPythonCode(double firstMonth, double secondMonth, double thirdMonth) {
+    private void runPythonCode(ArrayList<Double> totals) {
         if(!Python.isStarted()) {
             Python.start(new AndroidPlatform(Objects.requireNonNull(getActivity())));
         }
 
         Python py = Python.getInstance();
         PyObject pyf = py.getModule("predict");
-        PyObject obj = pyf.callAttr("get", firstMonth, secondMonth, thirdMonth);
+        PyObject obj = pyf.callAttr("get", totals);
         comment.setText(String.format("You're expected to spend a total of %.2S SR in the next month.", obj.toString()));
     }
 }

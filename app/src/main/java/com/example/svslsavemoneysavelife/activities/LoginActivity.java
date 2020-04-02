@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,10 +18,12 @@ import com.example.svslsavemoneysavelife.R;
 import com.example.svslsavemoneysavelife.callback.UserCallback;
 import com.example.svslsavemoneysavelife.controller.UserController;
 import com.example.svslsavemoneysavelife.models.User;
+import com.example.svslsavemoneysavelife.utils.LocaleHelper;
 import com.example.svslsavemoneysavelife.utils.SharedData;
 import com.example.svslsavemoneysavelife.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -86,6 +89,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //change lang
+                if (LocaleHelper.getLanguage(LoginActivity.this).equals("ar")) {
+                    LocaleHelper.setLocale(LoginActivity.this, "en");
+                } else if (LocaleHelper.getLanguage(LoginActivity.this).equals("en")) {
+                    LocaleHelper.setLocale(LoginActivity.this, "ar");
+                }
+                recreate();
             }
         });
     }
@@ -93,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login() {
         Utils.hideKeyboard(LoginActivity.this);
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setTitle("Logging in...");
+        progressDialog.setTitle(getString(R.string.logging));
         progressDialog.setCancelable(false);
         progressDialog.show();
 
@@ -115,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     progressDialog.dismiss();
                     Toast.makeText(LoginActivity.this,
-                            "email or password is wrong try again or tap on forget password", Toast.LENGTH_LONG).show();
+                            R.string.login_error, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -132,11 +141,11 @@ public class LoginActivity extends AppCompatActivity {
         boolean validData = true;
         if(TextUtils.isEmpty(phone.getText().toString())){
             validData = false;
-            phone.setError("required field!");
+            phone.setError(getString(R.string.required));
         }
         if(TextUtils.isEmpty(pass.getText().toString())){
             validData = false;
-            pass.setError("required field!");
+            pass.setError(getString(R.string.required));
         }
         return validData;
     }

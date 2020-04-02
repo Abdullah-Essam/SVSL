@@ -20,11 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.svslsavemoneysavelife.R;
+import com.example.svslsavemoneysavelife.activities.LoginActivity;
 import com.example.svslsavemoneysavelife.adapters.InvoiceAdapter;
 import com.example.svslsavemoneysavelife.callback.UserCallback;
 import com.example.svslsavemoneysavelife.controller.UserController;
 import com.example.svslsavemoneysavelife.models.Invoice;
 import com.example.svslsavemoneysavelife.models.User;
+import com.example.svslsavemoneysavelife.utils.LocaleHelper;
 import com.example.svslsavemoneysavelife.utils.SharedData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,7 +55,7 @@ public class HomeFragment extends Fragment {
     private static final int RequestPermissionCode = 77;
     private RecyclerView recyclerView;
     private TextView monthTitle;
-    private Button insertButton;
+    private Button insertButton, lang;
     private ImageView imageView;
     private InvoiceAdapter adapter;
     private UserController userController = new UserController();
@@ -72,6 +74,8 @@ public class HomeFragment extends Fragment {
         monthTitle = view.findViewById(R.id.title);
         imageView = view.findViewById(R.id.imageView);
         insertButton = view.findViewById(R.id.insert_invoice);
+        lang = view.findViewById(R.id.lang);
+
         init();
         return view;
     }
@@ -79,12 +83,25 @@ public class HomeFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void init() {
         EnableRuntimePermission();
-        monthTitle.setText(df.format(SharedData.currentUser.getMonths().get(SharedData.currentMonthIndex).getMonthStart()) + " Month");
+        monthTitle.setText(df.format(SharedData.currentUser.getMonths().get(SharedData.currentMonthIndex).getMonthStart()) + getString(R.string.month));
         refreshList();
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CropImage.startPickImageActivity(Objects.requireNonNull(getContext()), HomeFragment.this);
+            }
+        });
+
+        lang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //change lang
+                if (LocaleHelper.getLanguage(getContext()).equals("ar")) {
+                    LocaleHelper.setLocale(getContext(), "en");
+                } else if (LocaleHelper.getLanguage(getContext()).equals("en")) {
+                    LocaleHelper.setLocale(getContext(), "ar");
+                }
+                Objects.requireNonNull(getActivity()).recreate();
             }
         });
     }
@@ -134,7 +151,7 @@ public class HomeFragment extends Fragment {
 
     private void detectText() {
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("detecting...");
+        progressDialog.setTitle(getString(R.string.detecting));
         progressDialog.setCancelable(false);
         progressDialog.show();
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
@@ -173,7 +190,7 @@ public class HomeFragment extends Fragment {
                                     SharedData.currentUser.getMonths().get(SharedData.currentMonthIndex).getInvoices().add(invoice);
                                     double oldTotal = SharedData.currentUser.getMonths().get(SharedData.currentMonthIndex).getTotalExpanse();
                                     SharedData.currentUser.getMonths().get(SharedData.currentMonthIndex).setTotalExpanse(oldTotal + amount);
-                                    progressDialog.setTitle("total is " + String.format("%.2f", amount) + " saving....");
+                                    progressDialog.setTitle(getString(R.string.total_is) + String.format("%.2f", amount) + getString(R.string.saving));
                                     userController.save(SharedData.currentUser, new UserCallback() {
                                         @Override
                                         public void onSuccess(ArrayList<User> users) {
@@ -190,7 +207,7 @@ public class HomeFragment extends Fragment {
                                     });
                                 } else {
                                     progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "couldn't find the invoice total, please crop at the total amount.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), R.string.detect_error, Toast.LENGTH_LONG).show();
                                 }
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -198,7 +215,7 @@ public class HomeFragment extends Fragment {
                     public void onFailure(@NonNull Exception e) {
                         e.printStackTrace();
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), "couldn't find the invoice total, please crop at the total amount.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.detect_error, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -219,7 +236,7 @@ public class HomeFragment extends Fragment {
             if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
                 //Toast.makeText(getContext(), "Permission Granted, Now your application can access CAMERA.", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getContext(), "we don't have Camera permission, allow from settings please to take picture.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.permission_error, Toast.LENGTH_LONG).show();
             }
         }
     }

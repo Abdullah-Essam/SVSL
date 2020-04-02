@@ -35,6 +35,7 @@ public class SetLimitActivity extends AppCompatActivity {
     private ArrayList<Month> userMonths = new ArrayList<>();
     private double amount = 0.0;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,7 @@ public class SetLimitActivity extends AppCompatActivity {
 
         userMonths = SharedData.currentUser.getMonths();
         String monthName = df.format(userMonths.get(SharedData.currentMonthIndex).getMonthStart());
-        title.setText("Dear " + SharedData.currentUser.getName() + ", in order for us to assist you, please enter the monthly limit you'd like to respect");
+        title.setText(getString(R.string.dear) + SharedData.currentUser.getName() + getString(R.string.limit_title));
         limitAmount.setHint("Enter " + monthName + " limit");
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +62,7 @@ public class SetLimitActivity extends AppCompatActivity {
                     }
                     if (amount > 0) {
                         final ProgressDialog progressDialog = new ProgressDialog(SetLimitActivity.this);
-                        progressDialog.setTitle("Saving...");
+                        progressDialog.setTitle(getString(R.string.saving));
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         SharedData.currentUser.getMonths().get(SharedData.currentMonthIndex).setMonthLimit(amount);
@@ -82,7 +83,7 @@ public class SetLimitActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        Toast.makeText(SetLimitActivity.this, "Enter valid amount (greater than 0)", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SetLimitActivity.this, R.string.valid_amount, Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -91,7 +92,7 @@ public class SetLimitActivity extends AppCompatActivity {
 
     private boolean validate() {
         if (TextUtils.isEmpty(limitAmount.getText().toString())) {
-            limitAmount.setError("required field!");
+            limitAmount.setError(getString(R.string.required));
             return false;
         }
         return true;

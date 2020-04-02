@@ -41,7 +41,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Utils.hideKeyboard(ResetPasswordActivity.this);
                 final ProgressDialog progressDialog = new ProgressDialog(ResetPasswordActivity.this);
-                progressDialog.setTitle("saving...");
+                progressDialog.setTitle(getString(R.string.saving));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
@@ -76,11 +76,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
         if(TextUtils.isEmpty(pass.getText().toString())){
             validData = false;
-            pass.setError("required field!");
+            pass.setError(getString(R.string.required));
         }
         if(TextUtils.isEmpty(confirmPass.getText().toString())){
             validData = false;
-            confirmPass.setError("required field!");
+            confirmPass.setError(getString(R.string.required));
         }
         return validData;
     }

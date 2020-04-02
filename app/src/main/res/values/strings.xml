@@ -1,16 +1,15 @@
 <resources>
     <string name="app_name">SVSL</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="Open" />
-    <string name="Close" />
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">User Name</string>
-    <string name="nav_header_subtitle">User Phone</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="Open" translatable="false">Open</string>
+    <string name="Close" translatable="false">Close</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">User Name</string>
+    <string name="nav_header_subtitle" translatable="false">User Phone</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="action_logout">Logout</string>
 
     <string name="menu_home">Home</string>
@@ -19,6 +18,77 @@
     <string name="menu_rate">User Rating</string>
     <string name="menu_help">Help</string>
     <string name="menu_about_us">About Us</string>
+    <string name="menu_logout">Log out</string>
 
-    <string name="home_second">Home Second</string>
+    <string name="home_second" translatable="false">Home Second</string>
+
+
+    <string name="reset_password_title">Reset Your Password</string>
+    <string name="reset_button">Reset</string>
+
+    <string name="password_edit_text">Password *</string>
+    <string name="login_button">Login</string>
+    <string name="forget_button">Forget Password?</string>
+    <string name="no_account_button">Don\'t Have an Account? Sign Up</string>
+
+    <string name="otp_title">Enter One Time Password</string>
+    <string name="otp_edit_text">one time password*</string>
+    <string name="check_button">Check</string>
+
+    <string name="name_edit_text">Name *</string>
+    <string name="phone_edit_text">Phone Number *</string>
+    <string name="password_edit_txt">Choose Password *</string>
+    <string name="confirm_pass">Confirm Password *</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="new_pass_title">Enter New Password</string>
+    <string name="new_pass_et">New Password *</string>
+    <string name="confirm_pass_et">Confirm Password *</string>
+    <string name="save_button">Save</string>
+
+    <string name="set_limit_title">Please enter the monthly limit you\'d like to respect</string>
+    <string name="set_limit_sub_title">*Please be advised that when the limit has bees set, you may not change it until the end of the month.</string>
+    <string name="limit_et">month limit amount</string>
+    <string name="enter_button">Enter</string>
+
+    <string name="about">This application will help the users to mange their money and try to do plan and save their goal.</string>
+    <string name="help">This application will help the users to mange their money and try to do plan and save their goal.</string>
+
+    <string name="insert_invoice">Insert Invoice</string>
+    <string name="past_purchases">Past Purchases:</string>
+    <string name="camera">Camera</string>
+    <string name="image_description">Captured Picture</string>
+
+    <string name="predict_title">You can predict how much you will expense this month</string>
+    <string name="predict_button">Predict</string>
+
+    <string name="save_title">My goal is to buy an item that cost:</string>
+    <string name="goal_cost_et">goal cost</string>
+
+    <string name="detecting">detecting...</string>
+
+    <string name="total_is">total is </string>
+    <string name="saving"> saving....</string>
+    <string name="detect_error">couldn\'t find the invoice total, please crop at the total amount.</string>
+    <string name="permission_error">we don\'t have Camera permission, allow from settings please to take picture.</string>
+
+    <string name="three_month_error">Sorry, you have to use the application for 3 months or more.</string>
+    <string name="predict_comment">You\'re expected to spend a total of %.2S SR in the next month.</string>
+    <string name="required">required field!</string>
+    <string name="logging">Logging in…</string>
+    <string name="login_error">phone or password is wrong try again or tap on forget password</string>
+    <string name="month">"  Month"</string>
+    <string name="dear">Dear </string>
+    <string name="limit_title">, in order for us to assist you, please enter the monthly limit you\'d like to respect</string>
+
+    <string name="valid_amount">Enter valid amount (greater than 0)</string>
+
+    <string name="sr"> SR</string>
+    <string name="invoice">Invoice </string>
+    <string name="five">You did excellent! You should treat yourself.</string>
+    <string name="four">You did well! But you can improve</string>
+    <string name="three">Not bad, but try being more careful next time</string>
+    <string name="two">you need to work more on your spending habit</string>
+    <string name="one">You really have a problem with spending try to fix that!</string>
+
 </resources>

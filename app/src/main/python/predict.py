@@ -3,7 +3,7 @@ from sklearn import linear_model
 from sklearn.linear_model import LinearRegression
 
 
-def get(month1_total, month2_total, month3_total):
+def get(total_array):
     # x and y must be in specific shape
     x = np.random.uniform(-1, 1, 101)
     y = x + 1 + np.random.normal(0, 1, len(x))
@@ -15,7 +15,7 @@ def get(month1_total, month2_total, month3_total):
     LM = linear_model.LinearRegression().fit(x, y)
 
     # Passing the totals into the array
-    total_array = np.array([month1_total, month2_total, month3_total])
+    # total_array = np.array([month1_total, month2_total, month3_total])
 
     # Prediction
     predicted_total = total_array.reshape(-1, 1)

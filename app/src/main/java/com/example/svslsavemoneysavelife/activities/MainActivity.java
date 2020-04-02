@@ -1,34 +1,22 @@
 package com.example.svslsavemoneysavelife.activities;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chaquo.python.Python;
-import com.chaquo.python.android.AndroidPlatform;
 import com.example.svslsavemoneysavelife.R;
 import com.example.svslsavemoneysavelife.controller.MonthController;
 import com.example.svslsavemoneysavelife.utils.SharedData;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -69,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         TextView userPhone = navHeader.findViewById(R.id.user_phone);
         userName.setText(SharedData.currentUser.getName());
         userPhone.setText(SharedData.currentUser.getPhone());
+        Button logout = navigationView.findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -99,15 +94,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.action_logout:
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean(SharedData.IS_USER_SAVED, false);
-                editor.putString(SharedData.PHONE, "");
-                editor.putString(SharedData.PASS, "");
-                editor.apply();
-
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                logout();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -116,5 +103,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int RC, @NonNull String[] per, @NonNull int[] PResult) {
         super.onRequestPermissionsResult(RC, per, PResult);
+    }
+
+    private void logout() {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(SharedData.IS_USER_SAVED, false);
+        editor.putString(SharedData.PHONE, "");
+        editor.putString(SharedData.PASS, "");
+        editor.apply();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

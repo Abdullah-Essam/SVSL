@@ -27,18 +27,18 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Please enter the monthly limit you'd like to respect"
+            android:text="@string/set_limit_title"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/sub_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="*Please be advised that when the limit has bees set, you may not change it until the end of the month."
+            android:text="@string/set_limit_sub_title"
             android:textColor="@color/colorPrimary"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <EditText
@@ -51,7 +51,7 @@
         android:background="#FFFFFF"
         android:ems="10"
         android:gravity="center"
-        android:hint="month limit amount"
+        android:hint="@string/limit_et"
         android:inputType="numberDecimal"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/button_back"
-        android:text="Enter"
+        android:text="@string/enter_button"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

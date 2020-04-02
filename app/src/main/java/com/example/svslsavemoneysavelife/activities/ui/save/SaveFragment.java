@@ -64,13 +64,13 @@ public class SaveFragment extends Fragment {
                             }
 
                             double monthly_saving_amount = goalCost / duration * 12;
-                            comment.setText(String.format("To achieve this goal, you must save %.2f SR per month for %.0f months", monthly_saving_amount, duration));
+                            comment.setText(String.format("To achieve this goal, you must save %.2f SR per month for %.0f months", monthly_saving_amount, (duration * 12)));
                         } catch (Exception e) {
                             e.printStackTrace();
                             Toast.makeText(getContext(), "Enter valid amount", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        comment.setText("Sorry, you have to use the application for 3 months or more to get feedback");
+                        comment.setText(R.string.three_month_error);
                     }
                 }
             }

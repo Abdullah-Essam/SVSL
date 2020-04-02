@@ -39,26 +39,26 @@ public class RateAdapter extends RecyclerView.Adapter<RateAdapter.ViewHolder> {
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(df.format(mData.get(position).getMonthStart()) + " Month");
+        holder.title.setText(df.format(mData.get(position).getMonthStart()) + context.getString(R.string.month));
         double total = mData.get(position).getTotalExpanse();
         double limit = mData.get(position).getMonthLimit();
-        holder.price.setText(String.format("%.2f SR", total));
-        holder.limit.setText(String.format("%.2f SR", limit));
+        holder.price.setText(String.format("%.2f", total) + context.getString(R.string.sr));
+        holder.limit.setText(String.format("%.2f", limit) + context.getString(R.string.sr));
 
         if (total / limit <= 1.0) {
-            holder.comment.setText("You did excellent! You should treat yourself.");
+            holder.comment.setText(context.getText(R.string.five));
             holder.ratingBar.setRating(5);
         } else if (total / limit <= 1.15) {
-            holder.comment.setText("You did well! But you can improve");
+            holder.comment.setText(context.getText(R.string.four));
             holder.ratingBar.setRating(4);
         } else if (total / limit <= 1.4) {
-            holder.comment.setText("Not bad, but try being more careful next time");
+            holder.comment.setText(context.getText(R.string.three));
             holder.ratingBar.setRating(3);
         } else if (total / limit <= 1.8) {
-            holder.comment.setText("you need to work more on your spending habit");
+            holder.comment.setText(context.getText(R.string.two));
             holder.ratingBar.setRating(2);
         } else if (total / limit > 1.8) {
-            holder.comment.setText("You really have a problem with spending try to fix that!");
+            holder.comment.setText(context.getText(R.string.one));
             holder.ratingBar.setRating(1);
         }
 

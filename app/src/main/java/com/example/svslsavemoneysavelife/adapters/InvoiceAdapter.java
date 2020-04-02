@@ -39,8 +39,8 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.ViewHold
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText("Invoice " + (position + 1));
-        holder.price.setText(String.format("%.2f SR", mData.get(position).getAmount()));
+        holder.title.setText(context.getString(R.string.invoice) + (position + 1));
+        holder.price.setText(String.format("%.2f", mData.get(position).getAmount()) + context.getString(R.string.sr));
         holder.date.setText(df.format(mData.get(position).getDate()));
 
     }

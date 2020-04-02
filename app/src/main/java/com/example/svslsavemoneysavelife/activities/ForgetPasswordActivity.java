@@ -42,7 +42,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
     private boolean validate() {
         if(TextUtils.isEmpty(phone.getText().toString())){
-            phone.setError("required field!");
+            phone.setError(getString(R.string.required));
             return false;
         }
         return true;

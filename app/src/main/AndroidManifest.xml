@@ -4,7 +4,7 @@
 
     <meta-data
         android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-        android:value="barcode" />
+        android:value="text" />
     <meta-data
         android:name="com.google.android.gms.vision.DEPENDENCIES"
         android:value="ocr" />
@@ -51,7 +51,6 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".saveforgoal" />
     </application>
 
 </manifest>
