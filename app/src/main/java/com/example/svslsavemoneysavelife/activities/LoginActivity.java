@@ -6,9 +6,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +20,6 @@ import com.example.svslsavemoneysavelife.R;
 import com.example.svslsavemoneysavelife.callback.UserCallback;
 import com.example.svslsavemoneysavelife.controller.UserController;
 import com.example.svslsavemoneysavelife.models.User;
-import com.example.svslsavemoneysavelife.utils.LocaleHelper;
 import com.example.svslsavemoneysavelife.utils.SharedData;
 import com.example.svslsavemoneysavelife.utils.Utils;
 
@@ -89,12 +90,34 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //change lang
-                if (LocaleHelper.getLanguage(LoginActivity.this).equals("ar")) {
-                    LocaleHelper.setLocale(LoginActivity.this, "en");
-                } else if (LocaleHelper.getLanguage(LoginActivity.this).equals("en")) {
-                    LocaleHelper.setLocale(LoginActivity.this, "ar");
+                Locale current = getCurrentLocale();
+                if (current.getLanguage().equals("ar")) {
+                    Resources res = getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    android.content.res.Configuration conf = res.getConfiguration();
+                    conf.setLocale(new Locale("en".toLowerCase()));
+                    res.updateConfiguration(conf, dm);
+
+                    Intent i = getBaseContext().getPackageManager().
+                            getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    finish();
+                    startActivity(i);
+                } else if (current.getLanguage().equals("en")) {
+                    Resources res = getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    android.content.res.Configuration conf = res.getConfiguration();
+                    conf.setLocale(new Locale("ar".toLowerCase()));
+                    res.updateConfiguration(conf, dm);
+
+                    Intent i = getBaseContext().getPackageManager().
+                            getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    finish();
+                    startActivity(i);
                 }
-                recreate();
             }
         });
     }
@@ -148,5 +171,14 @@ public class LoginActivity extends AppCompatActivity {
             pass.setError(getString(R.string.required));
         }
         return validData;
+    }
+
+    private Locale getCurrentLocale(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return this.getResources().getConfiguration().getLocales().get(0);
+        } else{
+            //noinspection deprecation
+            return this.getResources().getConfiguration().locale;
+        }
     }
 }

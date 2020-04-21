@@ -91,4 +91,7 @@
     <string name="two">you need to work more on your spending habit</string>
     <string name="one">You really have a problem with spending try to fix that!</string>
 
+    <string name="predict_one">You\'re expected to spend a total of </string>
+    <string name="predict_two">SR in the next month.</string>
+
 </resources>

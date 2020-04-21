@@ -63,4 +63,6 @@
     <string name="three">ليس سيئا! ولكن حاول أن تكون أكثر حذرا المرات القادمة.</string>
     <string name="two">أن تحتاج أن تعمل أكثر على عادات انفاقك لتحسينها.</string>
     <string name="one">انت بالفعل لديك مشكلة في الانفاق يجب عليك معالجتها.</string>
+    <string name="predict_one">"متوقع لك أن تنفق إجمالي قدره "</string>
+    <string name="predict_two">رس في الشهر القادم.</string>
 </resources>

@@ -44,9 +44,9 @@ public class PredictFragment extends Fragment {
             public void onClick(View v) {
                 int noOfMonths = SharedData.currentUser.getMonths().size();
                 if (noOfMonths >= 3) {
-                    ArrayList<Double> totals = new ArrayList<>();
-                    for (Month month : SharedData.currentUser.getMonths()) {
-                        totals.add(month.getTotalExpanse());
+                    Double[] totals = new Double[SharedData.currentUser.getMonths().size()];
+                    for(int i = 0; i < SharedData.currentUser.getMonths().size(); i++) {
+                        totals[i] = SharedData.currentUser.getMonths().get(i).getTotalExpanse();
                     }
                     runPythonCode(totals);
                 } else {
@@ -57,14 +57,17 @@ public class PredictFragment extends Fragment {
         return view;
     }
 
-    private void runPythonCode(ArrayList<Double> totals) {
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    private void runPythonCode(Double[] totals) {
         if(!Python.isStarted()) {
             Python.start(new AndroidPlatform(Objects.requireNonNull(getActivity())));
         }
 
         Python py = Python.getInstance();
         PyObject pyf = py.getModule("predict");
-        PyObject obj = pyf.callAttr("get", totals);
-        comment.setText(String.format("You're expected to spend a total of %.2S SR in the next month.", obj.toString()));
+        PyObject obj = pyf.callAttr("get", (Object) totals);
+        String strValue = obj.toString().trim().replaceAll("[^\\d.]", "");
+        double value = Double.parseDouble(strValue);
+        comment.setText(getResources().getString(R.string.predict_one) + String.format(" %.2f", value) + getResources().getString(R.string.predict_two));
     }
 }

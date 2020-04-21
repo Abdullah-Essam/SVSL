@@ -6,10 +6,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.svslsavemoneysavelife.R;
-import com.example.svslsavemoneysavelife.activities.LoginActivity;
 import com.example.svslsavemoneysavelife.adapters.InvoiceAdapter;
 import com.example.svslsavemoneysavelife.callback.UserCallback;
 import com.example.svslsavemoneysavelife.controller.UserController;
 import com.example.svslsavemoneysavelife.models.Invoice;
 import com.example.svslsavemoneysavelife.models.User;
-import com.example.svslsavemoneysavelife.utils.LocaleHelper;
 import com.example.svslsavemoneysavelife.utils.SharedData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +42,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -96,12 +98,34 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //change lang
-                if (LocaleHelper.getLanguage(getContext()).equals("ar")) {
-                    LocaleHelper.setLocale(getContext(), "en");
-                } else if (LocaleHelper.getLanguage(getContext()).equals("en")) {
-                    LocaleHelper.setLocale(getContext(), "ar");
+                Locale current = getCurrentLocale();
+                if (current.getLanguage().equals("ar")) {
+                    Resources res = getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    android.content.res.Configuration conf = res.getConfiguration();
+                    conf.setLocale(new Locale("en".toLowerCase()));
+                    res.updateConfiguration(conf, dm);
+
+                    Intent i = getActivity().getBaseContext().getPackageManager().
+                            getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().finish();
+                    startActivity(i);
+                } else if (current.getLanguage().equals("en")) {
+                    Resources res = getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    android.content.res.Configuration conf = res.getConfiguration();
+                    conf.setLocale(new Locale("ar".toLowerCase()));
+                    res.updateConfiguration(conf, dm);
+
+                    Intent i = getActivity().getBaseContext().getPackageManager().
+                            getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().finish();
+                    startActivity(i);
                 }
-                Objects.requireNonNull(getActivity()).recreate();
             }
         });
     }
@@ -238,6 +262,15 @@ public class HomeFragment extends Fragment {
             } else {
                 Toast.makeText(getContext(), R.string.permission_error, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private Locale getCurrentLocale(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return this.getResources().getConfiguration().getLocales().get(0);
+        } else{
+            //noinspection deprecation
+            return this.getResources().getConfiguration().locale;
         }
     }
 }
